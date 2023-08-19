@@ -25,3 +25,21 @@
 #   Remember to use the "exec form" which is the preferred syntax
 #   Here is the documentation for CMD if you need a reminder:
 #   https://docs.docker.com/engine/reference/builder/#cmd
+
+
+FROM node:alpine 
+
+EXPOSE 8081
+
+RUN apk add --update tini
+
+WORKDIR /usr/src/app
+
+COPY package.json package-lock.json .
+
+RUN npm install 
+RUN npm cache clean --force
+
+COPY . .
+
+CMD ["/sbin/tini", "--", "node", "app.js"]
