@@ -10,3 +10,12 @@
 # BONUS: add in a healthcheck!
 
 # No need to specify EXPOSE or CMD because they're include in the base (FROM)
+
+
+FROM nginx
+
+WORKDIR /usr/share/nginx/html
+
+COPY index.html .
+
+HEALTHCHECK CMD curl --fail http://localhost:8080 || exit 1
